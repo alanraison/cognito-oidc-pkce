@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
+import Home from './Home';
 import './App.css';
+
+const oktaConfig = {
+  clientId: '0oarctzexf8mJlhv50h7',
+  issuer: 'https://dev-369184.oktapreview.com/oauth2/default',
+  redirectUri: `${window.location.origin}/implicit/callback`,
+  scopes: ['openid','email'],
+  pkce: true,
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Security {...oktaConfig}>
+        <Route path="/implicit/callback" component={LoginCallback}/>
+        <SecureRoute exact path="/" component={Home}/>
+      </Security>
+    </Router>
   );
 }
 
