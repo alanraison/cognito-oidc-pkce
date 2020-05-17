@@ -32,7 +32,7 @@ interface IProviderProps extends Auth0ClientOptions {
   onRedirectCallback?: (state: any) => void;
 }
 
-export default function({
+export default function AuthProvider({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
