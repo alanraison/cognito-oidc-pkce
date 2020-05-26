@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import './App.css';
+import { useCognitoAuth } from './cognitoAuth/context';
 
 function App() {
+  const { authState, authClient } = useCognitoAuth();
   const [message, setMessage] = useState('');
   const [result, setResult] = useState<string|Error>();
+  useEffect(() => {
+    const init = async () => {
+      await authClient?.loginWithRedirect();
+    }
+    init();
+  })
   AWS.config.region = 'eu-west-1';
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'eu-west-1:d5446d9a-c215-487e-b605-08f110b767dc',
