@@ -1,0 +1,1 @@
+module '@okta/okta-react';
